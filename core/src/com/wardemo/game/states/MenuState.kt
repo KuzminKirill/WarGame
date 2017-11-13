@@ -10,7 +10,7 @@ class MenuState(gsm: GameStateManager) : State(gsm) {
     private val playBtn: Texture
 
     init {
-        background = Texture("fon.jpg")
+        background = Texture("bliss3.jpg")
         playBtn = Texture("start.PNG")
     }
 
