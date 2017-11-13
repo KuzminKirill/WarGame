@@ -5,27 +5,32 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.wardemo.game.states.MenuState
+import com.wardemo.game.states.GameStateManager
+
 
 class WarDemo : ApplicationAdapter() {
-    internal lateinit var batch: SpriteBatch
-    internal lateinit var img: Texture
+
+    private var gsm: GameStateManager? = null
+    private var batch: SpriteBatch? = null
 
     override fun create() {
         batch = SpriteBatch()
-        img = Texture("badlogic.jpg")
+        gsm = GameStateManager()
         Gdx.gl.glClearColor(1f, 0f, 0f, 1f)
+        gsm!!.push(MenuState(gsm!!))
     }
 
     override fun render() {
-
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
-        batch.begin()
-        batch.draw(img, 0f, 0f)
-        batch.end()
+        gsm!!.update(Gdx.graphics.deltaTime)
+        gsm!!.render(batch!!)
     }
 
-    override fun dispose() {
-        batch.dispose()
-        img.dispose()
+    companion object {
+        val WIDTH = 480
+        val HEIGHT = 800
+
+        val TITLE = "War Game"
     }
 }

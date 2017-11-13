@@ -5,14 +5,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector3
 
 
-abstract class State() {
+
+abstract class State(protected var gsm: GameStateManager) {
 
     protected var camera: OrthographicCamera
     protected var mouse: Vector3
-    protected var gsm: GameStateManager
 
     init {
-        gsm = GameStateManager()
         camera = OrthographicCamera()
         mouse = Vector3()
     }
