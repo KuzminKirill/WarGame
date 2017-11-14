@@ -1,5 +1,6 @@
 package com.wardemo.game.states
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 
 import com.badlogic.gdx.graphics.Texture
@@ -15,11 +16,13 @@ class MenuState(gsm: GameStateManager) : State(gsm) {
     }
 
     public override fun handleInput() {
-
+        if(Gdx.input.justTouched()) {
+            gsm.set(LevelState(gsm))
+        }
     }
 
     override fun update(dt: Float) {
-
+        handleInput()
     }
 
     override fun render(sb: SpriteBatch) {
