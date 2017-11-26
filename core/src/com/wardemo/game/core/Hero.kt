@@ -7,22 +7,31 @@ class Hero(x: Float, y: Float) {
 
     val EPS = 0f
     val GRAVITY = -15f
+    val BORDER = 0f
 
     var position : Vector3
     var velocity : Vector3
     var hero : Texture
 
 
-    fun update(dt : Float){
+    fun update(dt : Float) {
         if (position.y > EPS) velocity.add(0f,GRAVITY,0f)
         velocity.scl(dt)
-        position.add(0f,velocity.y,0f)
+        position.add(velocity.x,velocity.y,0f)
         velocity.scl(1/dt)
         if (position.y < EPS) position.y = 0f
     }
 
-    fun jump(){
-        velocity.y =250f
+    fun jump() {
+        velocity.y = 250f
+    }
+
+    fun move_left() {
+        velocity.x = -50f
+    }
+
+    fun move_right() {
+        velocity.x = 50f
     }
 
     init {

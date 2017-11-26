@@ -15,7 +15,10 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
         camera.setToOrtho(false,WarDemo.WIDTH / 2f, WarDemo.HEIGHT / 2f)
     }
     override fun handleInput() {
-        if (Gdx.input.justTouched()) hero.jump()
+        if (Gdx.input.justTouched()) {
+            hero.jump()
+            hero.move_right()
+        }
     }
 
     override fun update(dt: Float) {
