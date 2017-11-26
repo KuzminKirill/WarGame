@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector3
 
 class Hero(x: Float, y: Float) {
 
+    val EPS = 0f
     val GRAVITY = -15f
 
     var position : Vector3
@@ -13,12 +14,15 @@ class Hero(x: Float, y: Float) {
 
 
     fun update(dt : Float){
-        velocity.add(0f,GRAVITY,0f)
+        if (position.y > EPS) velocity.add(0f,GRAVITY,0f)
         velocity.scl(dt)
         position.add(0f,velocity.y,0f)
         velocity.scl(1/dt)
+        if (position.y < EPS) position.y = 0f
+    }
 
-
+    fun jump(){
+        velocity.y =250f
     }
 
     init {
