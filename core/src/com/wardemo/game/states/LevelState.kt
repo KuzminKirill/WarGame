@@ -1,6 +1,7 @@
 package com.wardemo.game.states
 
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.wardemo.game.WarDemo
 import com.wardemo.game.core.Hero
@@ -14,10 +15,14 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
         camera.setToOrtho(false,WarDemo.WIDTH / 2f, WarDemo.HEIGHT / 2f)
     }
     override fun handleInput() {
-
+        if (Gdx.input.justTouched()) {
+            hero.jump()
+            hero.move_right()
+        }
     }
 
     override fun update(dt: Float) {
+        handleInput()
         hero.update(dt)
     }
 
