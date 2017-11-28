@@ -37,6 +37,6 @@ class Hero(x: Float, y: Float) {
     init {
         position = Vector3(x,y,0f)
         velocity = Vector3(0f,0f,0f)
-        hero = Texture("hero.jpg")
+        hero = Texture("hero.png")
     }
 }

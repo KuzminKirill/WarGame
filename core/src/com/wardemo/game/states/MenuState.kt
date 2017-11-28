@@ -16,7 +16,7 @@ class MenuState(gsm: GameStateManager) : State(gsm) {
     }
 
     public override fun handleInput() {
-        if(Gdx.input.justTouched()) {
+        if((Gdx.input.x > 1000) && (Gdx.input.y > 1000))   {
             gsm.set(LevelState(gsm))
         }
     }
