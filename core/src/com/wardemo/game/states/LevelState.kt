@@ -29,15 +29,16 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
 
     }
     override fun handleInput() {
-        if (Gdx.input.justTouched()) {
+        if ((Gdx.input.x > 1600) && (Gdx.input.x < 1700) &&  (Gdx.input.y > 950) && (Gdx.input.y < 1080)) {
             hero.jump()
-            //hero.move_right()
+
         }
-        if((Gdx.input.x < 100) && (Gdx.input.y < 100))   {
+
+        if((Gdx.input.x > 900) && (Gdx.input.x < 1100) &&  (Gdx.input.y > 950) && (Gdx.input.y < 1080))   {
             hero.move_right()
         }
 
-        if((Gdx.input.x > 100) && (Gdx.input.y > 100))   {
+        if((Gdx.input.x > 0) && (Gdx.input.x < 150) &&  (Gdx.input.y > 950) && (Gdx.input.y < 1080))   {
             hero.move_left()
         }
     }
