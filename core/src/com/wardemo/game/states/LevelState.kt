@@ -30,10 +30,26 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
         rightBtn = Texture("right.png")
     }
     override fun handleInput() {
-        if (Gdx.input.justTouched()) {
+
+        if (Gdx.input.isTouched) {
+            if ((Gdx.input.x > 1600) && (Gdx.input.x < 1700) && (Gdx.input.y > 950) && (Gdx.input.y < 1080)) {
+                hero.jump()
+            }
+
+
+                if ((Gdx.input.x > 900) && (Gdx.input.x < 1100) && (Gdx.input.y > 950) && (Gdx.input.y < 1080)) {
+                    hero.move_right()
+                }
+
+                if ((Gdx.input.x > 0) && (Gdx.input.x < 150) && (Gdx.input.y > 950) && (Gdx.input.y < 1080)) {
+                    hero.move_left()
+                }
+            }
+            else hero.velocity.x = 0f
+/*        if (Gdx.input.isTouched) {
             hero.jump()
             hero.move_right()
-        }
+        }*/
     }
 
     override fun update(dt: Float) {
@@ -63,6 +79,9 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
     }
 
     override fun dispose() {
-
+        rightBtn.dispose()
+        leftBtn.dispose()
+        font.dispose()
+        hero.free()
     }
 }

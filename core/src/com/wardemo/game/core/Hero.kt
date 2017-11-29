@@ -40,4 +40,8 @@ class Hero(x: Float, y: Float) {
         velocity = Vector3(0f,0f,0f)
         hero = Texture("hero.jpg")
     }
+
+    fun free() {
+        hero.dispose()
+    }
 }
