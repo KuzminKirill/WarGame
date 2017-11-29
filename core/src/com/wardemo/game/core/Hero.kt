@@ -23,7 +23,8 @@ class Hero(x: Float, y: Float) {
     }
 
     fun jump() {
-        velocity.y = 250f
+        if (position.y == 0f)
+            velocity.y = 250f
     }
 
     fun move_left() {
