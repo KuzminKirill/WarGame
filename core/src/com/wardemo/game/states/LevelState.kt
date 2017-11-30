@@ -29,18 +29,25 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
 
     }
     override fun handleInput() {
-        if ((Gdx.input.x > 1600) && (Gdx.input.x < 1700) &&  (Gdx.input.y > 950) && (Gdx.input.y < 1080)) {
-            hero.jump()
 
-        }
 
-        if((Gdx.input.x > 900) && (Gdx.input.x < 1100) &&  (Gdx.input.y > 950) && (Gdx.input.y < 1080))   {
-            hero.move_right()
-        }
+        if (Gdx.input.isTouched(1) || Gdx.input.isTouched(0)) {
+            if ((Gdx.input.x > 900) && (Gdx.input.x < 1100) && (Gdx.input.y > 950) && (Gdx.input.y < 1080)) {
+                hero.move_right()
+            }
 
-        if((Gdx.input.x > 0) && (Gdx.input.x < 150) &&  (Gdx.input.y > 950) && (Gdx.input.y < 1080))   {
-            hero.move_left()
+            if ((Gdx.input.x > 0) && (Gdx.input.x < 150) && (Gdx.input.y > 950) && (Gdx.input.y < 1080)) {
+                hero.move_left()
+            }
         }
+        else hero.velocity.x = 0f
+
+        if (Gdx.input.isTouched(0)) {
+            if ((Gdx.input.x > 1600) && (Gdx.input.x < 1700) && (Gdx.input.y > 950) && (Gdx.input.y < 1080)) {
+                hero.jump()
+            }
+        }
+        else hero.velocity.y = 0f
     }
 
     override fun update(dt: Float) {
@@ -48,11 +55,8 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
         hero.update(dt)
     }
 
-    //fun leftbtn() {
-    //    if((Gdx.input.x < 100) && (Gdx.input.y < 100))   {
-    //        hero.move_right()
-    //    }
-    //}
+
+
 
     override fun render(sb: SpriteBatch) {
         sb.projectionMatrix = camera.combined
