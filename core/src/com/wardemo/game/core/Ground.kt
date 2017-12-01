@@ -11,6 +11,14 @@ class Ground {
         gr = Texture("ground.png")
     }
 
+    fun getgr(): Texture? {
+        return gr
+    }
+
+    fun getposgr(): Vector2?{
+        return posgr
+    }
+
     fun position(x: Float, y :Float) {
         posgr = Vector2(x, y)
     }
