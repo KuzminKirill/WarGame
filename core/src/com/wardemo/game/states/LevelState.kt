@@ -30,7 +30,6 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
         rightBtn = Texture("right.png")
     }
     override fun handleInput() {
-
         if (Gdx.input.isTouched) {
             if ((Gdx.input.x > 1600) && (Gdx.input.x < 1700) && (Gdx.input.y > 950) && (Gdx.input.y < 1080)) {
                 hero.jump()
@@ -46,10 +45,6 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
                 }
             }
             else hero.velocity.x = 0f
-/*        if (Gdx.input.isTouched) {
-            hero.jump()
-            hero.move_right()
-        }*/
     }
 
     override fun update(dt: Float) {
@@ -66,8 +61,7 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         camera.update()
 
-
-       // sb.projectionMatrix = camera.combined
+        sb.projectionMatrix = camera.combined
         sb.begin()
         font.draw(sb, "SCORE: " + score, 0f,400f)
         sb.draw(leftBtn, 0f, 0f)
