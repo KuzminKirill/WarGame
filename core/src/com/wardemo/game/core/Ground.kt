@@ -4,22 +4,27 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.math.Vector2
 
 class Ground {
-    private var gr :Texture? = null
-    private var posgr: Vector2? = null
+    private var gr :Texture
+    private var posgr: Vector2
 
     init {
-        gr = Texture("ground.png")
+        gr = Texture("Dirt.png")
+        posgr = Vector2(0f,0f)
     }
 
-    fun getgr(): Texture? {
+    fun getposgrx(): Float {
+        return posgr.x
+    }
+
+    fun getposgry(): Float {
+        return posgr.y
+    }
+
+    //fun position(x: Float, y :Float) {
+    //    posgr.set(x, y)
+    //}
+
+    fun getgr(): Texture {
         return gr
-    }
-
-    fun getposgr(): Vector2?{
-        return posgr
-    }
-
-    fun position(x: Float, y :Float) {
-        posgr = Vector2(x, y)
     }
 }

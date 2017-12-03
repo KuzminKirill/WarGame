@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton
+import com.wardemo.game.core.Ground
 
 
 class LevelState(gsm :GameStateManager) : State(gsm) {
@@ -19,6 +20,8 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
     private val leftBtn: Texture
     private val rightBtn: Texture
     private val back: Texture
+    //private val ground: Texture
+    var ground1: Ground
 
     init {
         hero = Hero(50f,50f)
@@ -26,8 +29,11 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
         leftBtn = Texture("left.png")
         rightBtn = Texture("right.png")
         back = Texture("Sky.jpg")
+        ground1 = Ground()
 
     }
+
+
     override fun handleInput() {
 
 
@@ -63,7 +69,7 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
         sb.begin()
         sb.draw(back, 0f, 0f)
         sb.draw(leftBtn, 0f, 0f)
-        sb.draw(rightBtn, 25f, 0f)
+        sb.draw(ground1.getgr(), ground1.getposgrx(), ground1.getposgry())
         sb.draw(hero.hero, hero.position.x,hero.position.y)
 
         sb.end()
