@@ -9,6 +9,7 @@ import com.wardemo.game.states.MenuState
 import com.wardemo.game.states.GameStateManager
 
 
+
 class WarDemo : ApplicationAdapter() {
 
     private var gsm: GameStateManager? = null
@@ -17,7 +18,7 @@ class WarDemo : ApplicationAdapter() {
     override fun create() {
         batch = SpriteBatch()
         gsm = GameStateManager()
-        Gdx.gl.glClearColor(1f, 0f, 0f, 1f)
+        Gdx.gl.glClearColor(0f, 0f, 0f, 0f)
         gsm!!.push(MenuState(gsm!!))
     }
 
@@ -28,8 +29,8 @@ class WarDemo : ApplicationAdapter() {
     }
 
     companion object {
-        val WIDTH = 480
-        val HEIGHT = 800
+        val WIDTH = 1000
+        val HEIGHT = 1000
 
         val TITLE = "War Game"
     }

@@ -1,5 +1,5 @@
 android {
-    buildToolsVersion "27.0.1"
+    buildToolsVersion '26.0.2'
     compileSdkVersion 27
     sourceSets {
         main {
@@ -19,7 +19,7 @@ android {
     }
     defaultConfig {
         applicationId "com.wardemo.game"
-        minSdkVersion 14
+        minSdkVersion 19
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -29,6 +29,8 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    productFlavors {
     }
 }
 // called every time gradle gets executed, takes the native dependencies of
