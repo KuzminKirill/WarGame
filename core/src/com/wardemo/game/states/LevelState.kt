@@ -10,7 +10,12 @@ import com.badlogic.gdx.utils.TimeUtils
 import com.wardemo.game.WarDemo
 import com.wardemo.game.core.Coin
 import com.wardemo.game.core.Hero
-
+import com.sun.awt.SecurityWarning.setPosition
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle
+import com.badlogic.gdx.scenes.scene2d.ui.Skin
+import com.badlogic.gdx.graphics.g2d.TextureAtlas
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton
+import com.wardemo.game.core.Ground
 
 
 class LevelState(gsm :GameStateManager) : State(gsm) {
@@ -23,6 +28,10 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
     //var right : Button
     private val leftBtn: Texture
     private val rightBtn: Texture
+
+    private val back: Texture
+    //private val ground: Texture
+    var ground1: Ground
     private var font : BitmapFont
     var score : Int
     var lastDropTime : Long
@@ -39,6 +48,8 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
         coins = ArrayList()
         //left = Button(0f,0f,300f,300f, "left.png")
         //right = Button(400f,0f,700f,300f, "left.png")
+        back = Texture("Sky.jpg")
+        ground1 = Ground()
 
         lastDropTime = 0
         coinsCount = 10
@@ -86,6 +97,12 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
         camera.update()
         sb.projectionMatrix = camera.combined
         sb.begin()
+
+        sb.draw(back, 0f, 0f)
+        sb.draw(leftBtn, 0f, 0f)
+        sb.draw(ground1.getgr(), ground1.getposgrx(), ground1.getposgry())
+        sb.draw(hero.hero, hero.position.x,hero.position.y)
+
         font.draw(sb, "SCORE: " + score, 0f,400f)
         sb.draw(leftBtn, 0f, 0f)
         sb.draw(rightBtn, 25f, 0f)
@@ -112,6 +129,7 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
                 }
             }
         }
+
 
         sb.end()
         if (TimeUtils.nanoTime() - lastDropTime > 2*Math.pow(10.0,9.0)) { // time's up?
