@@ -23,7 +23,8 @@ class Hero(x: Float, y: Float) {
     }
 
     fun jump() {
-        velocity.y = 250f
+        if (position.y == 0f)
+            velocity.y = 250f
     }
 
     fun move_left() {
@@ -38,5 +39,9 @@ class Hero(x: Float, y: Float) {
         position = Vector3(x,y,0f)
         velocity = Vector3(0f,0f,0f)
         hero = Texture("hero.jpg")
+    }
+
+    fun free() {
+        hero.dispose()
     }
 }
