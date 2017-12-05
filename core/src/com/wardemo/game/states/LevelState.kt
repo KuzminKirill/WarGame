@@ -83,11 +83,13 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
         sb.begin()
         sb.draw(back, 0f, 0f,1920f,1080f)
         sb.draw(ground1.getgr(), ground1.getposgrx(), ground1.getposgry())
-        sb.draw(hero.hero, hero.position.x, hero.position.y)
+
+        sb.draw(hero.getHero(), hero.position.x, hero.position.y)
         sb.draw(left.button, left.xCor, left.yCor)
         sb.draw(right.button, right.xCor, right.yCor)
         sb.draw(jump.button, jump.xCor, jump.yCor)
-        sb.draw(hero.hero, hero.position.x, hero.position.y)
+        sb.draw(hero.getHero(), hero.position.x, hero.position.y)
+
 
         scoreHint.draw(sb, "SCORE: $score coins: $coinsCount", 0f,400f)
 

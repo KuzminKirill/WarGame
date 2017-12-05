@@ -1,8 +1,10 @@
 package com.wardemo.game.core
 
-import com.badlogic.gdx.graphics.Texture
+
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector3
+import javax.xml.soap.Text
 
 class Hero(x: Float, y: Float) {
 
@@ -12,10 +14,13 @@ class Hero(x: Float, y: Float) {
     var rect : Rectangle
     var position : Vector3
     var velocity : Vector3
-    var hero : Texture
+    //var hero : Texture
+    val hero : HeroAnimation
+    var texture : Texture
 
 
     fun update(dt : Float) {
+        hero.update(dt)
         if (position.y > EPS) velocity.add(0f,GRAVITY,0f)
         velocity.scl(dt)
         position.add(velocity.x,velocity.y,0f)
@@ -42,10 +47,16 @@ class Hero(x: Float, y: Float) {
         rect = Rectangle(x,y,64f,75f)
         position = Vector3(x,y,0f)
         velocity = Vector3(0f,0f,0f)
-        hero = Texture("hero.png")
+        //hero = Texture("hero.png")
+        texture = Texture("hero_run.png")
+        hero = HeroAnimation(TextureRegion(texture), 6, 1f)
     }
 
     fun free() {
-        hero.dispose()
+        texture.dispose()
+    }
+
+    fun getHero(): TextureRegion {
+        return hero.getFrame()
     }
 }
