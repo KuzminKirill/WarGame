@@ -8,17 +8,17 @@ import com.badlogic.gdx.graphics.Texture
 class MenuState(gsm: GameStateManager) : State(gsm) {
 
     private val background: Texture
-    private val playBtn: Texture
+    private val playBtn :customButton
 
     init {
         background = Texture("bliss3.jpg")
-        playBtn = Texture("start.PNG")
+        playBtn = customButton(960f,540f, "start.PNG")
     }
 
     public override fun handleInput() {
-        if((Gdx.input.x > 1000) && (Gdx.input.y > 1000))   {
+        if (playBtn.isTouched(Gdx.input.x.toFloat(), 1080 - Gdx.input.y.toFloat()))
             gsm.set(LevelState(gsm))
-        }
+
     }
 
     override fun update(dt: Float) {
@@ -28,14 +28,12 @@ class MenuState(gsm: GameStateManager) : State(gsm) {
     override fun render(sb: SpriteBatch) {
         sb.begin()
         sb.draw(background, 0f, 0f, 1920f, 1080f)
-        sb.draw(playBtn, 1920f / 2 - playBtn.width/2, 1080 / 2f)
+        sb.draw(playBtn.button,playBtn.xCor,playBtn.yCor)
         sb.end()
-
     }
 
     override fun dispose() {
+        playBtn.free()
         background.dispose()
-        playBtn.dispose()
-
     }
 }
