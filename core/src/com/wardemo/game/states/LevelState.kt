@@ -7,12 +7,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.TimeUtils
-import com.wardemo.game.core.Coin
+import com.wardemo.game.core.Item
 import com.wardemo.game.core.Hero
 import com.wardemo.game.core.Ground
 
 class LevelState(gsm :GameStateManager) : State(gsm) {
-    val coins : MutableList<Coin>
+    val items: MutableList<Item>
    // val ground : MutableList<Ground> //ground array
     var hero : Hero
 
@@ -30,14 +30,14 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
     private var coinsCount : Int
 
     init {
-        coins = ArrayList()
+        items = ArrayList()
 
-        hero = Hero(50f,50f)
+        hero = Hero(1700f,50f, "VikingRunSprite.png", "VikingIdleSprite.png")
 
         //buttons
-        left = customButton(0f,0f, "left.png")
-        right = customButton(250f,0f,"right.png")
-        jump = customButton(1700f, 0f, "jump.png")
+        left = customButton(0f,0f, "LeftBtn.png")
+        right = customButton(250f,0f,"RightBtn.png")
+        jump = customButton(1700f, 0f, "JumpBtn.png")
 
         back = Texture("Sky.jpg")
         ground1 = Ground(0f,0f)
@@ -55,11 +55,11 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
             }
 
             if (left.isTouched(Gdx.input.x.toFloat(), 1080 - Gdx.input.y.toFloat())) {
-                hero.move_left()
+                hero.moveLeft()
             }
 
             if (right.isTouched(Gdx.input.x.toFloat(), 1080 - Gdx.input.y.toFloat())) {
-                hero.move_right()
+                hero.moveRight()
             }
 
         } else hero.velocity.x = 0f
@@ -68,12 +68,12 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
     override fun update(dt: Float) {
         handleInput()
         hero.update(dt)
-        for (coin : Coin in coins) coin.update(dt)
+        for (item: Item in items) item.update(dt)
     }
 
     private fun generateCoin() {
-            val coin = Coin(MathUtils.random(20f, 600f), MathUtils.random(200f, 400f))
-            coins.add(coin)
+            val coin = Item(MathUtils.random(20f, 600f), MathUtils.random(200f, 400f),"Barrel.png")
+            items.add(coin)
             lastDropTime = TimeUtils.nanoTime()
     }
 
@@ -82,27 +82,24 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
         sb.draw(back, 0f, 0f,1920f,1080f)
         sb.draw(ground1.getgr(), ground1.getposgrx(), ground1.getposgry())
 
-        sb.draw(hero.getHero(), hero.position.x, hero.position.y)
+        sb.draw(if (Gdx.input.isTouched) hero.getHeroRun() else hero.getHeroIdle(), hero.position.x, hero.position.y)
         sb.draw(left.button, left.xCor, left.yCor)
         sb.draw(right.button, right.xCor, right.yCor)
         sb.draw(jump.button, jump.xCor, jump.yCor)
-        sb.draw(hero.getHero(), hero.position.x, hero.position.y)
+        scoreHint.draw(sb, "SCORE: $score items: $coinsCount", 0f,400f)
 
-
-        scoreHint.draw(sb, "SCORE: $score coins: $coinsCount", 0f,400f)
-
-        for (coin : Coin in coins) {
-            if (coin.isDraw) {
-                sb.draw(coin.coin, coin.position.x, coin.position.y)
-                if (coin.rect.overlaps(hero.rect)) {
+        for (item: Item in items) {
+            if (item.isDraw) {
+                sb.draw(item.view, item.position.x, item.position.y)
+                if (item.rect.overlaps(hero.rect)) {
                     score++
-                    coin.isDraw = false
+                    item.isDraw = false
                 }
             }
         }
         sb.end()
         if (TimeUtils.nanoTime() - lastDropTime > 1*Math.pow(10.0,9.0)) { // time's up?
-            if (coinsCount > 0) { //coins remains?
+            if (coinsCount > 0) { //items remains?
                 generateCoin()
                 coinsCount--
             }
@@ -110,8 +107,8 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
     }
 
     override fun dispose() {
-        for (coin : Coin in coins){
-            coin.free()
+        for (item: Item in items){
+            item.free()
         }
         left.free()
         right.free()

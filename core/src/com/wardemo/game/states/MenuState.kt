@@ -7,17 +7,9 @@ import com.badlogic.gdx.graphics.Texture
 
 class MenuState(gsm: GameStateManager) : State(gsm) {
 
-    private val background: Texture
-    private val playBtn :customButton
-
-    private val exitBtn :customButton
-
-    init {
-        background = Texture("startskrin.png")
-        playBtn = customButton(780f,500f, "play.png")
-        exitBtn = customButton(1670f,230f,"exit.png")
-
-    }
+    private val background: Texture = Texture("StartScreen.png")
+    private val playBtn :customButton = customButton(575f,450f, "PlayBtn.png")
+    private val exitBtn :customButton = customButton(1330f,230f,"ExitBtn.png")
 
     public override fun handleInput() {
         if (playBtn.isTouched(Gdx.input.x.toFloat(), 1080 - Gdx.input.y.toFloat()))
