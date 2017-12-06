@@ -7,14 +7,13 @@ import kotlin.concurrent.fixedRateTimer
 
 class Coin(x : Float, y : Float) {
 
-
-    var isDraw : Boolean
+    var isDraw : Boolean = true
     val EPS = 0f
     val GRAVITY = -15f
-    var rect : Rectangle
-    var position : Vector3
-    var velocity : Vector3
-    var coin : Texture
+    var rect : Rectangle = Rectangle(x,y,32f,32f)
+    var position : Vector3 = Vector3(x,y,0f)
+    var velocity : Vector3 = Vector3(0f,0f,0f)
+    var coin : Texture = Texture("Bochka.png")
 
     fun update(dt : Float) {
         if (position.y > EPS) velocity.add(0f, GRAVITY, 0f)
@@ -26,17 +25,7 @@ class Coin(x : Float, y : Float) {
         rect.y=position.y
     }
 
-
-    init {
-        rect = Rectangle(x,y,32f,32f)
-        position = Vector3(x,y,0f)
-        velocity = Vector3(0f,0f,0f)
-        coin = Texture("coin.png")
-        isDraw = true
-    }
-
     fun free() {
         coin.dispose()
     }
-
 }
