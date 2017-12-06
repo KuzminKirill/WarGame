@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.TimeUtils
-import com.wardemo.game.WarDemo
 import com.wardemo.game.core.Coin
 import com.wardemo.game.core.Hero
 import com.wardemo.game.core.Ground
@@ -18,17 +17,17 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
     var hero : Hero
 
     //buttons
-    val left : customButton
-    val right : customButton
-    val jump : customButton
+    private val left : customButton
+    private val right : customButton
+    private val jump : customButton
 
     private val back: Texture
     var ground1: Ground
     private val scoreHint: BitmapFont
 
-    var score : Int
-    var lastDropTime : Long
-    var coinsCount : Int
+    private var score : Int
+    private var lastDropTime : Long
+    private var coinsCount : Int
 
     init {
         coins = ArrayList()
@@ -52,7 +51,6 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
     override fun handleInput() {
         if (Gdx.input.isTouched(0) || Gdx.input.isTouched(1)) {
             if (jump.isTouched(Gdx.input.x.toFloat(), 1080 - Gdx.input.y.toFloat())) {
-            //if ((Gdx.input.x > 1600) && (Gdx.input.x < 1700) && (Gdx.input.y > 950) && (Gdx.input.y < 1080)) {
                 hero.jump()
             }
 
@@ -73,7 +71,7 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
         for (coin : Coin in coins) coin.update(dt)
     }
 
-    fun generatecoin() {
+    private fun generateCoin() {
             val coin = Coin(MathUtils.random(20f, 600f), MathUtils.random(200f, 400f))
             coins.add(coin)
             lastDropTime = TimeUtils.nanoTime()
@@ -105,7 +103,7 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
         sb.end()
         if (TimeUtils.nanoTime() - lastDropTime > 1*Math.pow(10.0,9.0)) { // time's up?
             if (coinsCount > 0) { //coins remains?
-                generatecoin()
+                generateCoin()
                 coinsCount--
             }
         }
