@@ -4,15 +4,14 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 
-class Item(x : Float, y : Float, itemView:String) {
+class Item(pos : Vector2) {
 
     var isDraw : Boolean = true
     val EPS = 0f
     val GRAVITY = -15f
-    var rect : Rectangle = Rectangle(x,y,32f,32f)
-    var position : Vector2 = Vector2(x,y)
+    var rect : Rectangle = Rectangle(pos.x,pos.y,32f,32f)
+    var position : Vector2 = Vector2(pos.x, pos.y)
     var velocity : Vector2 = Vector2(0f,0f)
-    var view: Texture = Texture(itemView)
 
     fun update(dt : Float) {
         if (position.y > EPS) velocity.add(0f, GRAVITY)
@@ -25,6 +24,5 @@ class Item(x : Float, y : Float, itemView:String) {
     }
 
     fun free() {
-        view.dispose()
     }
 }

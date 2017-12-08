@@ -1,15 +1,25 @@
 package com.wardemo.game
 
 import com.badlogic.gdx.ApplicationAdapter
+import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.wardemo.game.states.GameScreen
+
 import com.wardemo.game.states.MenuState
 import com.wardemo.game.states.GameStateManager
 
 
+class WarDemo : Game() {
+    override fun create() {
+        setScreen(GameScreen())
+    }
+}
 
-class WarDemo : ApplicationAdapter() {
+
+
+/*class WarDemo : ApplicationAdapter() {
 
     private var gsm: GameStateManager? = null
     private var batch: SpriteBatch? = null
@@ -33,4 +43,4 @@ class WarDemo : ApplicationAdapter() {
 
         val TITLE = "War Game"
     }
-}
+}*/

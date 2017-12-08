@@ -1,57 +1,71 @@
 package com.wardemo.game.states
 
 
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.g2d.BitmapFont
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.graphics.g2d.TextureRegion
-import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.utils.TimeUtils
-import com.wardemo.game.core.Item
-import com.wardemo.game.core.Hero
-import com.wardemo.game.core.Ground
+import com.badlogic.gdx.physics.box2d.BodyDef
+import com.badlogic.gdx.physics.box2d.World
+import com.badlogic.gdx.utils.Disposable
+import com.wardemo.game.core.*
 
-class LevelState(gsm :GameStateManager) : State(gsm) {
-    private val items: MutableList<Item>
-    private val ground : MutableList<Ground>
-    private var hero : Hero
-
-    //buttons
-    private val left : customButton
-    private val right : customButton
-    private val jump : customButton
-    private val back: Texture
-    private val scoreHint: BitmapFont
-    private var score : Int
-    private var lastDropTime : Long
-    private var coinsCount : Int
-
-    init {
-        items = ArrayList()
-        ground = ArrayList()
-        ground.add(Ground(200f,0f))
-        ground.add(Ground(200f,60f))
-        ground.add(Ground(600f,200f))
-        ground.add(Ground(200f,324f))
-        ground.add(Ground(200f,465f))
-        ground.add(Ground(200f,700f))
-        ground.add(Ground(200f,1000f))
-        hero = Hero(1300f,0f, "VikingRunSprite.png",
-                            "VikingIdleSprite.png")
-        //buttons
-        left = customButton(0f,0f, "LeftBtn.png")
-        right = customButton(250f,0f,"RightBtn.png")
-        jump = customButton(1700f, 0f, "JumpBtn.png")
-
-        back = Texture("LevelBackground.jpg")
-        scoreHint = BitmapFont()
-        score = 0
-        lastDropTime = 0
-        coinsCount = 10
+//GameWorld
+class LevelWorld : Disposable {
+    override fun dispose() {
+        world.dispose()
     }
 
+
+    var world: World = World(Vector2(0f, -20f), true)
+    lateinit var items: MutableList<Item>
+    lateinit var ground: MutableList<Ground>
+    lateinit var hero: Hero
+
+
+
+    init {
+        createWorld()
+    }
+
+    //test world
+    private fun createWorld() {
+        val def = BodyDef()
+        def.type = BodyDef.BodyType.DynamicBody
+        val boxP = world.createBody(def)
+        hero = Hero(boxP)
+
+        hero.getBody().setTransform(3.0f, 4.0f, 0f)
+        hero.getBody().isFixedRotation = true
+        items = ArrayList()
+        ground = ArrayList()
+        ground.add(Ground(200f, 0f))
+        ground.add(Ground(200f, 60f))
+        ground.add(Ground(600f, 200f))
+        ground.add(Ground(200f, 324f))
+        ground.add(Ground(200f, 465f))
+        ground.add(Ground(200f, 700f))
+        ground.add(Ground(200f, 1000f))
+
+        //    score = 0
+        //    lastDropTime = 0
+        //    coinsCount = 10
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
     override fun handleInput() {
         if (Gdx.input.isTouched) {
             /*
@@ -96,12 +110,7 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
         for (item: Item in items) item.update(dt)
     }
 
-    private fun generateCoin() {
-            val coin = Item(MathUtils.random(20f, 1700f), MathUtils.random(0f, 1080f),
-                                                            "Barrel.png")
-            items.add(coin)
-            lastDropTime = TimeUtils.nanoTime()
-    }
+
 
     override fun render(sb: SpriteBatch) {
         sb.begin()
@@ -160,14 +169,7 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
         }
     }
 
-    override fun dispose() {
-        for (item: Item in items) item.free()
-        for (land :Ground in ground) land.free()
-        left.free()
-        right.free()
-        scoreHint.dispose()
-        hero.free()
-    }
+
 
     fun overlapsUp(obj: Vector2, upObj : Vector2) : Boolean {
         return (upObj.y - obj.y >= 0.001f &&
@@ -188,4 +190,4 @@ class LevelState(gsm :GameStateManager) : State(gsm) {
         return (rightObj.x - obj.x >= 0.001f &&
                 (rightObj.y - obj.y >= 0.001f || obj.x - rightObj.x >= 0.001f))
     }
-}
+}*/
