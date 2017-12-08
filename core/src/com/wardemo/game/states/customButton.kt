@@ -4,26 +4,16 @@ import com.badlogic.gdx.graphics.Texture
 
 class customButton(ldX : Float, ldY : Float, view : String) {
 
-    var button : Texture
-    var xCor : Float
-    var yCor : Float
-    //var rec : Rectangle
-    init {
-      //  rec = Rectangle(ldX, ldY, width, height)
-        button = Texture(view)
-        xCor = ldX
-        yCor = ldY
-    }
+    var button : Texture = Texture(view)
+    var x: Float = ldX
+    var y: Float = ldY
 
-    fun isTouched(x : Float, y : Float) : Boolean {
-        print("x=$x y= $y")
-        return x - xCor >= 0.01 && xCor + button.width - x >= 0.01
-                && y - yCor >= 0.01 && yCor + button.height - y >= 0.01
+    fun isTouched(xCor: Float, yCor: Float) : Boolean {
+        return xCor - this.x >= 0.01 && this.x + button.width - xCor >= 0.01
+                && yCor - this.y >= 0.01 && this.y + button.height - yCor >= 0.01
     }
 
     fun free() {
         button.dispose()
     }
-
-
 }
