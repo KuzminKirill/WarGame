@@ -5,13 +5,12 @@ import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.Application.ApplicationType
 import com.badlogic.gdx.graphics.GL20
-import com.wardemo.game.core.GameWorld
 import com.wardemo.game.core.Player
 import com.wardemo.game.core.WorldController
 import com.wardemo.game.core.WorldRenderer
 
-
-class GameScreen() : Screen, InputProcessor{
+//GameScreen
+class LevelScreen : Screen, InputProcessor{
 
     lateinit private var _world : LevelWorld
     lateinit private var _renderer : WorldRenderer
@@ -28,7 +27,6 @@ class GameScreen() : Screen, InputProcessor{
     }
 
     override fun touchDragged(x : Int, y :Int, pointer : Int) : Boolean{
-        ChangeNavigation(x,y)
         return false
     }
 
@@ -43,13 +41,13 @@ class GameScreen() : Screen, InputProcessor{
         _renderer.render(delta)
     }
 
-    fun ChangeNavigation(x : Int, y : Int){
+    fun changeNavigation(x : Int, y : Int){
       //  _controller.resetWay()
         if(height-y >  _controller.player.position.y * _renderer.ppuY)
             _controller.upPressed()
 
-        if(height-y <  _controller.player.position.y * _renderer.ppuY)
-            _controller.downPressed()
+        //if(height-y <  _controller.player.position.y * _renderer.ppuY)
+        //    _controller.downPressed()
 
         if ( x< _controller.player.position.x * _renderer.ppuX)
             _controller.leftPressed()
@@ -59,10 +57,13 @@ class GameScreen() : Screen, InputProcessor{
     }
 
     override fun touchDown(x : Int, y : Int, pointer : Int, button : Int) : Boolean {
-
         if (!Gdx.app.type.equals(ApplicationType.Android))
             return false
-        ChangeNavigation(x,y)
+        when {
+            _controller.leftBtn.isTouched(x.toFloat(),y.toFloat()) -> { _controller.leftPressed() }
+            _controller.rightBtn.isTouched(x.toFloat(),y.toFloat()) -> { _controller.rightPressed() }
+            _controller.jumpBtn.isTouched(x.toFloat(),y.toFloat()) -> {_controller.upPressed() }
+        }
         return true
     }
 

@@ -1,19 +1,18 @@
 package com.wardemo.game
 
-import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Game
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.GL20
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.wardemo.game.states.GameScreen
-
-import com.wardemo.game.states.MenuState
-import com.wardemo.game.states.GameStateManager
+import com.wardemo.game.states.LevelScreen
+import com.wardemo.game.states.MenuScreen
 
 
 class WarDemo : Game() {
+
+    lateinit var menu : MenuScreen
+    lateinit var level : LevelScreen
     override fun create() {
-        setScreen(GameScreen())
+        menu = MenuScreen(this)
+        level = LevelScreen()
+        setScreen(menu)
     }
 }
 
@@ -28,7 +27,7 @@ class WarDemo : Game() {
         batch = SpriteBatch()
         gsm = GameStateManager()
         Gdx.gl.glClearColor(0f, 0f, 0f, 0f)
-        gsm!!.push(MenuState(gsm!!))
+        gsm!!.push(MenuScreen(gsm!!))
     }
 
     override fun render() {

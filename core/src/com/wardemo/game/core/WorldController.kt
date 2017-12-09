@@ -6,22 +6,21 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Contact
 import com.badlogic.gdx.utils.TimeUtils
 import com.wardemo.game.states.LevelWorld
-
-
-
-
-
-
+import com.wardemo.game.states.customButton
 
 
 class WorldController(world: LevelWorld) {
 
-    var keyLeft = false
-    var keyRight = false
-    var keyJump = false
+    private var keyLeft = false
+    private var keyRight = false
+    private var keyJump = false
 
     var player : Hero = world.hero
     var _world : LevelWorld = world
+
+    var leftBtn : customButton = customButton(0f,0f, "LeftBtn.png")
+    var rightBtn : customButton = customButton(250f,0f,"RightBtn.png")
+    var jumpBtn : customButton = customButton(1700f, 0f, "JumpBtn.png")
 
     private var score : Int = 0
     private var lastDropTime : Long = 0

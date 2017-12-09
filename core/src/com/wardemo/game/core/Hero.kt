@@ -11,7 +11,7 @@ class Hero(box : Body) {
     val EPS = 0f
     val GRAVITY = -15f
     var playerPhysicsFixture: Fixture
-    var playerSensorFixture : Fixture
+    var playerSensorFixture: Fixture
     var box: Body = box
     private var isJump = false
 
@@ -21,11 +21,11 @@ class Hero(box : Body) {
 
     init {
         val poly = PolygonShape()
-        poly.setAsBox(0.4f, 0.4f)
+        poly.setAsBox(250f, 250f)
         playerPhysicsFixture = box.createFixture(poly, 3f)
         val circle = CircleShape()
-        circle.radius = 0.41f
-        circle.position = Vector2(0f, 0f)
+        circle.radius = 45f
+        circle.position = Vector2(450f, 450f)
         playerSensorFixture = box.createFixture(circle, 1f)
         setFriction(10f)
         circle.dispose()
@@ -39,7 +39,7 @@ class Hero(box : Body) {
         box.linearVelocity = velocity
         if (isJump) {
             box.applyLinearImpulse(0f, 8f,
-                    box.position.x, box.position.y,true)
+                    box.position.x, box.position.y, true)
             isJump = false
         }
     }
@@ -58,7 +58,7 @@ class Hero(box : Body) {
         velocity.y = 0f
     }
 
-    fun getBody() : Body {
+    fun getBody(): Body {
         return box
     }
 
@@ -69,7 +69,7 @@ class Hero(box : Body) {
     }
 
 
-
+}
 
 /*
     init {
@@ -124,4 +124,3 @@ class Hero(box : Body) {
         heroRunTexture.dispose()
         heroIdleTexture.dispose()
     }*/
-}

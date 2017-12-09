@@ -5,12 +5,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
+import com.wardemo.game.states.LevelWorld
 
 
-
-class WorldRenderer(lolWorld: GameWorld,w: Float, h: Float, debug: Boolean) {
-    var world: GameWorld = lolWorld
-    var renderer: Box2DDebugRenderer = Box2DDebugRenderer()
+class WorldRenderer(lolWorld: LevelWorld,w: Float, h: Float, debug: Boolean) {
+    var world : LevelWorld = lolWorld
+    var renderer : Box2DDebugRenderer = Box2DDebugRenderer()
     var ppuX: Float = 0.toFloat()
     var ppuY: Float = 0.toFloat()
     var cam: OrthographicCamera
@@ -18,6 +18,10 @@ class WorldRenderer(lolWorld: GameWorld,w: Float, h: Float, debug: Boolean) {
     var height : Int = 0
     var barrel : Texture
     var player : Texture
+    var left : Texture
+    var right : Texture
+    var jump : Texture
+    var background : Texture
     private var sb : SpriteBatch
 
     init {
@@ -30,14 +34,26 @@ class WorldRenderer(lolWorld: GameWorld,w: Float, h: Float, debug: Boolean) {
         sb = SpriteBatch()
         barrel = Texture("Barrel.png")
         player = Texture("Dirt.png")
+        left = Texture("LeftBtn.png")
+        right = Texture("RightBtn.png")
+        jump = Texture("JumpBtn.png")
+        background = Texture("LevelBackground.jpg")
     }
 
     fun drawPlayer() {
-        sb.draw(player, world.player.position.x, world.player.position.y)
+        sb.draw(player, world.hero.position.x, world.hero.position.y)
     }
 
+    private fun drawButtons() {
+        sb.draw(left, 0f,0f)
+        sb.draw(right, 250f,0f)
+        sb.draw(jump, 1725f, 0f)
+    }
+
+
+
     fun drawBrick() {
-        for (brick : Brick in world.bricks)
+        for (brick : Item in world.items)
             sb.draw(barrel, brick.position.x, brick.position.y)
     }
 
@@ -60,11 +76,13 @@ class WorldRenderer(lolWorld: GameWorld,w: Float, h: Float, debug: Boolean) {
 
     fun render(delta: Float) {
         sb.begin()
+        sb.draw(background,0f,0f,1920f,1080f)
         drawPlayer()
-    //    drawBrick()
+        drawButtons()
+        drawBrick()
         sb.end()
-        //renderer.render(world.world, cam.combined)
-        //world.world.step(delta, 4, 4)
+        renderer.render(world.world, cam.combined)
+        world.world.step(delta, 4, 4)
     }
 
     companion object {

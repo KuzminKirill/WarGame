@@ -2,10 +2,14 @@ package com.wardemo.game.states
 
 
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.Disposable
 import com.wardemo.game.core.*
+import com.badlogic.gdx.physics.box2d.PolygonShape
+
+
 
 //GameWorld
 class LevelWorld : Disposable {
@@ -47,7 +51,35 @@ class LevelWorld : Disposable {
         //    score = 0
         //    lastDropTime = 0
         //    coinsCount = 10
+
+        //создание платформы
+
+        //создание блоков
+        for (i in 0 until 10) {
+            var boxGround = createBox(BodyDef.BodyType.StaticBody, 25f, 25f, 2f)
+            boxGround.setTransform(i.toFloat(), 0f, 0f)
+            boxGround.fixtureList.get(0).userData = "bd"
+            boxGround = createBox(BodyDef.BodyType.StaticBody, 25f, 25f, 0f)
+            boxGround.setTransform(i.toFloat(),  -1f, 0f)
+            boxGround.fixtureList.get(0).userData = "b"
+        }
+
+
     }
+
+    private fun createBox(type: BodyDef.BodyType, width: Float, height: Float, density: Float): Body {
+        val def = BodyDef()
+        def.type = type
+        val box = world.createBody(def)
+        val poly = PolygonShape()
+        poly.setAsBox(width, height)
+        box.createFixture(poly, density)
+        poly.dispose()
+        return box
+    }
+
+
+
 }
 
 
