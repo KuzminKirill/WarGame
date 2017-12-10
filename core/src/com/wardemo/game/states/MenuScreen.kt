@@ -48,6 +48,7 @@ class MenuScreen(game: WarDemo) : Screen, InputProcessor {
         exitBtn.free()
         playBtn.free()
         background.dispose()
+        Gdx.input.inputProcessor = null
     }
 
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {

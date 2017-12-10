@@ -3,10 +3,8 @@ package com.wardemo.game.core
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.physics.box2d.Contact
 import com.badlogic.gdx.utils.TimeUtils
 import com.wardemo.game.states.LevelWorld
-import com.wardemo.game.states.customButton
 
 
 class WorldController(world: LevelWorld) {
@@ -18,9 +16,7 @@ class WorldController(world: LevelWorld) {
     var player : Hero = world.hero
     var _world : LevelWorld = world
 
-    var leftBtn : customButton = customButton(0f,0f, "LeftBtn.png")
-    var rightBtn : customButton = customButton(250f,0f,"RightBtn.png")
-    var jumpBtn : customButton = customButton(1700f, 0f, "JumpBtn.png")
+
 
     private var score : Int = 0
     private var lastDropTime : Long = 0
@@ -43,16 +39,10 @@ class WorldController(world: LevelWorld) {
         }
         grounded = isPlayerGrounded(Gdx.graphics.deltaTime)
         //обработка нажатий
-        processInput()
-
         //обработка состояния игрока
-        _world.hero.update(delta)
-
-
-
         processInput()
         _world.hero.update(delta)
-        for (item: Item in _world.items) item.update(delta)
+     //   for (item: Item in _world.items) item.update(delta)
     }
 
     //move left
@@ -83,24 +73,25 @@ class WorldController(world: LevelWorld) {
         val player = _world.hero
 
         when {
-            keyLeft -> { player.velocity.x = -Player.SPEED }
-            keyRight -> { player.velocity.x = Player.SPEED }
-            keyJump -> {
-                //если стоим на земле
-                if (grounded)
+            keyLeft -> { player.velocity.x = -Hero.SPEED }
+            keyRight -> { player.velocity.x = Hero.SPEED }
+            keyJump -> { player.velocity.y = Hero.SPEED }
+                /*//если стоим на земле
+                //if (grounded)
                 //прыгаем
                     player.jump()
                 //если не на земле
-                if (!grounded)
-                //убираем трение
+                if (!grounded) {
+                    //убираем трение
                     _world.hero.setFriction(0f)
+                }
                 else {
-                    if (Gdx.input.x < player.position.x || Gdx.input.x > player.position.x)
+                    if (keyLeft || keyRight)
                         _world.hero.setFriction(0.2f)
                     else
                         _world.hero.setFriction(100f)
                 }//иначе задаём трение
-            }
+            }*/
         }
     }
 
@@ -111,7 +102,7 @@ class WorldController(world: LevelWorld) {
 
 
     private fun isPlayerGrounded(deltaTime: Float): Boolean {
-       // _world.groundedPlatform = null
+      /* // _world.groundedPlatform = null
         val contactList = _world.world.contactList
         for (i : Contact in contactList) {
             if (i.isTouching && (i.getFixtureA()===_world.hero.playerSensorFixture ||
@@ -134,7 +125,7 @@ class WorldController(world: LevelWorld) {
 
                 return false
             }
-        }
+        }*/
         return false
     }
 }

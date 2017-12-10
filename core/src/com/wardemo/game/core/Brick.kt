@@ -4,10 +4,6 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 
 
-
-/**
- * Created by n.letov on 08.12.2017.
- */
 class Brick(pos : Vector2) {
 
     var position = Vector2()
@@ -22,6 +18,6 @@ class Brick(pos : Vector2) {
     }
 
     companion object {
-        val SIZE = 1f
+        val SIZE = 12f
     }
 }

@@ -5,24 +5,28 @@ import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.Application.ApplicationType
 import com.badlogic.gdx.graphics.GL20
-import com.wardemo.game.core.Player
+import com.wardemo.game.core.Control
 import com.wardemo.game.core.WorldController
 import com.wardemo.game.core.WorldRenderer
 
-//GameScreen
 class LevelScreen : Screen, InputProcessor{
 
     lateinit private var _world : LevelWorld
     lateinit private var _renderer : WorldRenderer
     lateinit private var _controller : WorldController
+    lateinit private var _control : Control
 
-    var width : Int = 0
-    var height : Int = 0
+    //    score = 0
+    //    lastDropTime = 0
+    //    coinsCount = 10
+
 
     override fun show() {
         _world = LevelWorld()
-        _renderer = WorldRenderer(_world, 8f, 5f, true)
+        _control = Control()
+        _renderer = WorldRenderer(_world, _control)
         _controller = WorldController(_world)
+
         Gdx.input.inputProcessor = this
     }
 
@@ -41,46 +45,22 @@ class LevelScreen : Screen, InputProcessor{
         _renderer.render(delta)
     }
 
-    fun changeNavigation(x : Int, y : Int){
-      //  _controller.resetWay()
-        if(height-y >  _controller.player.position.y * _renderer.ppuY)
-            _controller.upPressed()
-
-        //if(height-y <  _controller.player.position.y * _renderer.ppuY)
-        //    _controller.downPressed()
-
-        if ( x< _controller.player.position.x * _renderer.ppuX)
-            _controller.leftPressed()
-
-        if (x> (_controller.player.position.x + Player.SIZE)* _renderer.ppuX)
-            _controller.rightPressed()
-    }
-
     override fun touchDown(x : Int, y : Int, pointer : Int, button : Int) : Boolean {
-        if (!Gdx.app.type.equals(ApplicationType.Android))
-            return false
         when {
-            _controller.leftBtn.isTouched(x.toFloat(),y.toFloat()) -> { _controller.leftPressed() }
-            _controller.rightBtn.isTouched(x.toFloat(),y.toFloat()) -> { _controller.rightPressed() }
-            _controller.jumpBtn.isTouched(x.toFloat(),y.toFloat()) -> {_controller.upPressed() }
+            _control.leftBtn.isTouched(x.toFloat(),1080 - y.toFloat()) -> { _controller.leftPressed(); _control.x++}
+            _control.rightBtn.isTouched(x.toFloat(),1080 - y.toFloat()) -> { _controller.rightPressed(); _control.y++ }
+            _control.jumpBtn.isTouched(x.toFloat(),1080 - y.toFloat()) -> {_controller.upPressed(); _control.z++ }
         }
         return true
     }
 
     override fun touchUp(x : Int, y : Int, pointer : Int, button : Int) : Boolean {
-        if (!Gdx.app.getType().equals(ApplicationType.Android))
-            return false
         _controller.resetWay()
+        _controller.releaseKeys()
         return true
     }
 
-    override fun resize(width: Int, height: Int) {
-        _renderer.setSize(width, height)
-        this.width = width
-        this.height = height
-    }
-
-
+    override fun resize(width: Int, height: Int) {}
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {return false}
     override fun keyTyped(character: Char): Boolean {return false}
     override fun scrolled(amount: Int): Boolean {return false}

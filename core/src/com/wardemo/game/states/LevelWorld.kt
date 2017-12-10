@@ -18,7 +18,7 @@ class LevelWorld : Disposable {
     }
 
 
-    var world: World = World(Vector2(0f, -20f), true)
+    var world: World = World(Vector2(0f, -2000f), true)
     lateinit var items: MutableList<Item>
     lateinit var ground: MutableList<Ground>
     lateinit var hero: Hero
@@ -36,17 +36,19 @@ class LevelWorld : Disposable {
         val boxP = world.createBody(def)
         hero = Hero(boxP)
 
-        hero.getBody().setTransform(3.0f, 4.0f, 0f)
+        hero.getBody().setTransform(50f, 500f, 0f)
         hero.getBody().isFixedRotation = true
         items = ArrayList()
         ground = ArrayList()
+        ground.add(Ground(0f, 0f))
+        ground.add(Ground(100f, 0f))
         ground.add(Ground(200f, 0f))
-        ground.add(Ground(200f, 60f))
-        ground.add(Ground(600f, 200f))
-        ground.add(Ground(200f, 324f))
-        ground.add(Ground(200f, 465f))
-        ground.add(Ground(200f, 700f))
-        ground.add(Ground(200f, 1000f))
+        ground.add(Ground(300f, 0f))
+        ground.add(Ground(400f, 0f))
+        ground.add(Ground(500f, 0f))
+        ground.add(Ground(600f, 0f))
+
+
 
         //    score = 0
         //    lastDropTime = 0
@@ -55,14 +57,34 @@ class LevelWorld : Disposable {
         //создание платформы
 
         //создание блоков
-        for (i in 0 until 10) {
-            var boxGround = createBox(BodyDef.BodyType.StaticBody, 25f, 25f, 2f)
-            boxGround.setTransform(i.toFloat(), 0f, 0f)
-            boxGround.fixtureList.get(0).userData = "bd"
-            boxGround = createBox(BodyDef.BodyType.StaticBody, 25f, 25f, 0f)
-            boxGround.setTransform(i.toFloat(),  -1f, 0f)
-            boxGround.fixtureList.get(0).userData = "b"
-        }
+        var boxGround = createBox(BodyDef.BodyType.StaticBody, 960f, 5f, 2f)
+        boxGround.setTransform(960f, 0f, 0f)
+        boxGround.fixtureList.get(0).userData = "bd"
+        var boxleftWall = createBox(BodyDef.BodyType.StaticBody, 5f, 540f, 2f)
+        boxleftWall.setTransform(-5f, 540f, 0f)
+        boxleftWall.fixtureList.get(0).userData = "bd"
+        var boxRightWall = createBox(BodyDef.BodyType.StaticBody, 5f, 540f, 2f)
+        boxRightWall.setTransform(1920f, 540f, 0f)
+        boxRightWall.fixtureList.get(0).userData = "bd"
+        var boxRoof = createBox(BodyDef.BodyType.StaticBody, 960f, 5f, 2f)
+        boxRoof.setTransform(960f, 1080f, 0f)
+        boxRoof.fixtureList.get(0).userData = "bd"
+
+        var platform = createBox(BodyDef.BodyType.StaticBody, 250f, 50f, 2f)
+        platform.setTransform(1000f, 500f, 0f)
+        platform.fixtureList.get(0).userData = "bd"
+
+
+
+
+        /*    for (i in 0 until 1900 step 100) {
+                var boxGround = createBox(BodyDef.BodyType.StaticBody, 25f, 25f, 2f)
+                boxGround.setTransform(i.toFloat(), 200f, 0f)
+                boxGround.fixtureList.get(0).userData = "bd"*/
+         //   boxGround = createBox(BodyDef.BodyType.StaticBody, 25f, 25f, 0f)
+         //   boxGround.setTransform(i.toFloat(),  0f, 0f)
+         //   boxGround.fixtureList.get(0).userData = "b"
+       // }
 
 
     }

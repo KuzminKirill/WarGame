@@ -6,10 +6,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape
 import com.badlogic.gdx.physics.box2d.PolygonShape
 import com.badlogic.gdx.physics.box2d.Fixture
 
-//Player
 class Hero(box : Body) {
-    val EPS = 0f
-    val GRAVITY = -15f
     var playerPhysicsFixture: Fixture
     var playerSensorFixture: Fixture
     var box: Body = box
@@ -21,32 +18,33 @@ class Hero(box : Body) {
 
     init {
         val poly = PolygonShape()
-        poly.setAsBox(250f, 250f)
+        poly.setAsBox(50f, 50f)
         playerPhysicsFixture = box.createFixture(poly, 3f)
         val circle = CircleShape()
         circle.radius = 45f
-        circle.position = Vector2(450f, 450f)
+        circle.position = Vector2(0f, 0f)
         playerSensorFixture = box.createFixture(circle, 1f)
         setFriction(10f)
         circle.dispose()
         box.isBullet = true
-
     }
 
     fun update(delta: Float) {
         val vel = box.linearVelocity
-        velocity.y = vel.y
+        //velocity.y = vel.y
         box.linearVelocity = velocity
         if (isJump) {
-            box.applyLinearImpulse(0f, 8f,
-                    box.position.x, box.position.y, true)
+            box.applyLinearImpulse(0f, -40f, box.position.x, box.position.y, true)
             isJump = false
         }
+
     }
+
 
     // set friction force
     fun setFriction(f: Float) {
         playerPhysicsFixture.friction = f
+        playerSensorFixture.friction = f
     }
 
     fun jump() {
@@ -63,9 +61,9 @@ class Hero(box : Body) {
     }
 
     companion object {
-        internal val MAX_VELOCITY = 3f
-        val SPEED = 5f
-        val SIZE = 0.8f
+        internal val MAX_VELOCITY = 40f
+        val SPEED = 1600f
+        val SIZE = 90f
     }
 
 

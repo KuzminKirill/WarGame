@@ -3,41 +3,37 @@ package com.wardemo.game.core
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.wardemo.game.states.LevelWorld
 
 
-class WorldRenderer(lolWorld: LevelWorld,w: Float, h: Float, debug: Boolean) {
+class WorldRenderer(lolWorld: LevelWorld, lolcontrol : Control) {
+    var control : Control = lolcontrol
     var world : LevelWorld = lolWorld
     var renderer : Box2DDebugRenderer = Box2DDebugRenderer()
-    var ppuX: Float = 0.toFloat()
-    var ppuY: Float = 0.toFloat()
-    var cam: OrthographicCamera
-    var width : Int = 0
-    var height : Int = 0
-    var barrel : Texture
+    var cam: OrthographicCamera = OrthographicCamera(1920f,1080f)
+    var ground : Texture
     var player : Texture
-    var left : Texture
-    var right : Texture
-    var jump : Texture
-    var background : Texture
+    private var left : Texture
+    private var right : Texture
+    private var jump : Texture
+    private var background : Texture
     private var sb : SpriteBatch
+    private var hint : BitmapFont
 
     init {
-        CAMERA_WIDTH = w
-        CAMERA_HEIGHT = h
-        ppuX = Gdx.graphics.width.toFloat() / CAMERA_WIDTH
-        ppuY = Gdx.graphics.height.toFloat() / CAMERA_HEIGHT
-        this.cam = OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT)
-        SetCamera(CAMERA_WIDTH / 2f, CAMERA_HEIGHT / 2f)
+        SetCamera(1920f / 2,1080f / 2 )
         sb = SpriteBatch()
-        barrel = Texture("Barrel.png")
-        player = Texture("Dirt.png")
+        ground = Texture("Dirt.png")
+        player = Texture("Barrel.png")
         left = Texture("LeftBtn.png")
         right = Texture("RightBtn.png")
         jump = Texture("JumpBtn.png")
         background = Texture("LevelBackground.jpg")
+        hint = BitmapFont()
     }
 
     fun drawPlayer() {
@@ -45,25 +41,21 @@ class WorldRenderer(lolWorld: LevelWorld,w: Float, h: Float, debug: Boolean) {
     }
 
     private fun drawButtons() {
-        sb.draw(left, 0f,0f)
-        sb.draw(right, 250f,0f)
-        sb.draw(jump, 1725f, 0f)
+        hint.draw(sb,"left: ${control.x}\nright: ${control.y}\njump: ${control.z}",450f,450f)
+        sb.draw(control.leftBtn.button, control.leftBtn.x, control.leftBtn.y)
+        sb.draw(control.rightBtn.button, control.rightBtn.x, control.rightBtn.y)
+        sb.draw(control.jumpBtn.button, control.jumpBtn.x, control.jumpBtn.y)
+    }
+
+    fun drawBackground() {
+        sb.draw(background,0f,0f,1920f,1080f)
     }
 
 
-
-    fun drawBrick() {
-        for (brick : Item in world.items)
-            sb.draw(barrel, brick.position.x, brick.position.y)
+    fun drawGround() {
+        for (brick : Ground in world.ground)
+            sb.draw(ground, brick.posgr.x, brick.posgr.y)
     }
-
-    fun setSize(w: Int, h: Int) {
-        this.width = w
-        this.height = h
-        ppuX = width / CAMERA_WIDTH
-        ppuY = height / CAMERA_HEIGHT
-    }
-
 
     fun SetCamera(x: Float, y: Float) {
         this.cam.position.set(x, y, 0f)
@@ -76,17 +68,12 @@ class WorldRenderer(lolWorld: LevelWorld,w: Float, h: Float, debug: Boolean) {
 
     fun render(delta: Float) {
         sb.begin()
-        sb.draw(background,0f,0f,1920f,1080f)
-        drawPlayer()
+        drawBackground()
+    //    drawPlayer()
         drawButtons()
-        drawBrick()
+    //    drawGround()
         sb.end()
         renderer.render(world.world, cam.combined)
         world.world.step(delta, 4, 4)
-    }
-
-    companion object {
-        var CAMERA_WIDTH = 8f
-        var CAMERA_HEIGHT = 5f
     }
 }
